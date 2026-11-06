@@ -493,11 +493,6 @@ end //
 delimiter ;
 
 
-SET @v_PacientesDNI = ''; 
-
-call Pacientes_VerificarExistenciaDNI(12431243,@v_PacientesDNI);
-
-
 -- 22. Pacientes_VerificarExistenciaEmail : comprueba si un correo electrónico ya está registrado.
 
 DELIMITER //
@@ -518,12 +513,6 @@ begin
     end if ;
 end //
 delimiter ;
-
-SET @v_PacientesEmail = ''; 
-
-call Pacientes_VerificarExistenciaEmail("gonzalezmartin94@gmail.com",@v_PacientesEmail);
-
-select @v_PacientesEmail ;
 
 
 -- 23. Pacientes_MostrarOrdenadosPorApellido : muestra los pacientes ordenados alfabéticamente por apellido.
@@ -1580,8 +1569,6 @@ END //
 
 DELIMITER ;
 
-24 procedimientos 
-
 -- 97. Usuarios_MostrarTodos : muestra todos los usuarios registrados en el sistema.
 delimiter $$
 create procedure usuarios_mostrartodos()
@@ -2346,94 +2333,9 @@ SELECT id, Email
 FROM Usuarios
 WHERE Email LIKE '%a%';
 
--- 1. Catálogo de medicamentos genéricos y comerciales por tipo
-CREATE VIEW Vista_Med_Por_Tipo AS
-SELECT tipo, COUNT(*) AS Total_Productos, AVG(precio) AS Precio_Promedio
-FROM Medicamentos GROUP BY tipo;
 
--- 2. Alerta de stock crítico (menos de 5 unidades disponibles)
-CREATE VIEW Vista_Med_Stock_Critico AS
-SELECT id, nombre, stock, precio FROM Medicamentos WHERE stock < 5;
 
--- 3. Medicamentos de alta gama o VIP (Precios por encima del promedio)
-CREATE VIEW Vista_Med_Precio_Premium AS
-SELECT id, nombre, precio, tipo FROM Medicamentos 
-WHERE precio > (SELECT AVG(precio) FROM Medicamentos);
 
--- 4. Ranking de los 10 medicamentos más caros del inventario
-CREATE VIEW Vista_Med_Top10_Caros AS
-SELECT id, nombre, precio, stock FROM Medicamentos ORDER BY precio DESC LIMIT 10;
-
--- 5. Medicamentos con stock abundante (Listos para distribución masiva)
-CREATE VIEW Vista_Med_Stock_Seguro AS
-SELECT id, nombre, stock FROM Medicamentos WHERE stock >= 100;
-
--- 6. Reporte de valorización total del inventario por producto
-CREATE VIEW Vista_Med_Valor_Inventario AS
-SELECT id, nombre, stock, precio, (stock * precio) AS Valor_Total_Monetario FROM Medicamentos;
-
--- 7. Medicamentos agrupados por rango de precio (Económicos vs Caros)
-CREATE VIEW Vista_Med_Rangos_Precio AS
-SELECT id, nombre, precio,
-       CASE WHEN precio < 1500 THEN 'Económico'
-            WHEN precio BETWEEN 1500 AND 5000 THEN 'Moderado'
-            ELSE 'Alto Costo' END AS Categoria_Precio
-FROM Medicamentos;
-
--- 8. Medicamentos cuyo nombre empieza con una letra específica (Buscador rápido)
-CREATE VIEW Vista_Med_Abecedario AS
-SELECT id, nombre, tipo FROM Medicamentos ORDER BY nombre ASC;
-
--- 9. Resumen de stock total acumulado en la farmacia
-CREATE VIEW Vista_Med_Auditoria_Stock AS
-SELECT SUM(stock) AS Total_Pastillas_Disponibles, MIN(stock) AS Stock_Minimo_Actual FROM Medicamentos;
-
--- 10. Medicamentos con precios con centavos (Para control de caja)
-CREATE VIEW Vista_Med_Precios_Fraccionados AS
-SELECT id, nombre, precio FROM Medicamentos WHERE precio <> FLOOR(precio);
-DELIMITER //
-
--- 1. Listado exclusivo de enfermedades Crónicas
-CREATE VIEW Vista_Enf_Cronicas AS
-SELECT id, nombre, tipo FROM Enfermedades WHERE es_cronica = TRUE;
-
--- 2. Listado exclusivo de enfermedades Agudas / Temporales
-CREATE VIEW Vista_Enf_Agudas AS
-SELECT id, nombre, tipo FROM Enfermedades WHERE es_cronica = FALSE;
-
--- 3. Conteo de enfermedades clasificadas por su tipo (Infecciosas, Mentales, etc.)
-CREATE VIEW Vista_Enf_Por_Tipo AS
-SELECT tipo, COUNT(*) AS Cantidad FROM Enfermedades GROUP BY tipo;
-
--- 4. Enfermedades ordenadas alfabéticamente para vademécum
-CREATE VIEW Vista_Enf_Orden_Alfabetico AS
-SELECT id, nombre, es_cronica FROM Enfermedades ORDER BY nombre ASC;
-
--- 5. Enfermedades con nombres largos o compuestos (Análisis clínico)
-CREATE VIEW Vista_Enf_Nombres_Complejos AS
-SELECT id, nombre FROM Enfermedades WHERE LENGTH(nombre) > 20;
-
--- 6. Porcentaje de cronicidad global en la base de datos
-CREATE VIEW Vista_Enf_Porcentaje_Cronicas AS
-SELECT es_cronica, COUNT(*) * 100.0 / (SELECT COUNT(*) FROM Enfermedades) AS Porcentaje FROM Enfermedades GROUP BY es_cronica;
-
--- 7. Vista rápida para la app médica (ID y Nombre únicamente)
-CREATE VIEW Vista_Enf_Simplificada AS
-SELECT id, nombre FROM Enfermedades;
-
--- 8. Enfermedades del sistema respiratorio (Filtro temático común)
-CREATE VIEW Vista_Enf_Respiratorias AS
-SELECT id, nombre, es_cronica FROM Enfermedades WHERE tipo LIKE '%respiratorio%' OR tipo LIKE '%pulmonar%';
-
--- 9. Enfermedades raras o huérfanas (Tipos con un solo registro asociado)
-CREATE VIEW Vista_Enf_Tipos_Raros AS
-SELECT tipo FROM Enfermedades GROUP BY tipo HAVING COUNT(*) = 1;
-
--- 10. Vista de control de ID pares (Técnica para particiones o auditorías de sistemas)
-CREATE VIEW Vista_Enf_ID_Pares AS
-SELECT id, nombre, tipo FROM Enfermedades WHERE MOD(id, 2) = 0;
-
-DELIMITER //
 
 -- Triggers
 
@@ -2616,27 +2518,7 @@ BEGIN
 END //
 delimiter ;
 
--- 4. Alerta si se cambia una enfermedad de Aguda a Crónica
-delimiter //
-CREATE TRIGGER Trg_Enf_Alerta_Cronica AFTER UPDATE ON Enfermedades
-FOR EACH ROW 
-BEGIN
-    IF OLD.es_cronica = FALSE AND NEW.es_cronica = TRUE THEN
-        INSERT INTO Log_Auditoria (accion) VALUES (CONCAT('Alerta: ', NEW.nombre, ' fue reclasificada como CRÓNICA.'));
-    END IF;
-END //
-delimiter ;
 
--- 5. Bloquear la eliminación total de cualquier enfermedad crónica (Historial médico protegido)
-delimiter //
-CREATE TRIGGER Trg_Enf_Proteger_Cronicas BEFORE DELETE ON Enfermedades
-FOR EACH ROW 
-BEGIN
-    IF OLD.es_cronica = TRUE THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Por seguridad epidemiológica, no podés borrar enfermedades crónicas.';
-    END IF;
-END //
-delimiter ;
 
 -- 6. Logear cambios de nombre en enfermedades (Evitar confusiones de diagnóstico)
 delimiter //
@@ -2649,29 +2531,7 @@ BEGIN
 END //
 delimiter ;
 
--- 7. Clasificar automáticamente el tipo si se incluye la palabra "Virus" o "Bacteria"
-delimiter //
-CREATE TRIGGER Trg_Enf_Auto_Tipo BEFORE INSERT ON Enfermedades
-FOR EACH ROW 
-BEGIN
-    IF NEW.nombre LIKE '%virus%' OR NEW.nombre LIKE '%viral%' THEN 
-        SET NEW.tipo = 'Infecciosa/Viral';
-    ELSEIF NEW.nombre LIKE '%bacteria%' THEN 
-        SET NEW.tipo = 'Infecciosa/Bacteriana';
-    END IF;
-END //
-delimiter ;
 
--- 8. Validar que el tipo de enfermedad no contenga números (Evitar códigos extraños)
-delimiter //
-CREATE TRIGGER Trg_Enf_Validar_Tipo_Texto BEFORE INSERT ON Enfermedades
-FOR EACH ROW 
-BEGIN
-    IF NEW.tipo REGEXP '[0-9]' THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El tipo de enfermedad no puede contener caracteres numéricos.';
-    END IF;
-END //
-delimiter ;
 
 -- 9. Registrar en auditoría cuando una enfermedad es dada de baja del catálogo
 delimiter //
@@ -2682,17 +2542,6 @@ BEGIN
 END //
 delimiter ;
 
--- 10. Evitar duplicar el tipo "General" usando variaciones (Estandarización estricta)
-delimiter //
-CREATE TRIGGER Trg_Enf_Limpiar_Tipo BEFORE INSERT ON Enfermedades
-FOR EACH ROW 
-BEGIN
-    IF LOWER(NEW.tipo) = 'general' OR NEW.tipo = 'otro' THEN 
-        SET NEW.tipo = 'No Clasificada'; 
-    END IF;
-END //
-
-DELIMITER ;
 
 -- 1. Estandarizar nombre a MAYÚSCULAS antes de guardar
 delimiter //
@@ -2703,60 +2552,11 @@ BEGIN
 END //
 delimiter ;
 
--- 2. Evitar precios negativos (pone cero por defecto si se equivocan)
-delimiter //
-CREATE TRIGGER Trg_Med_Prevenir_Precio_Negativo BEFORE INSERT ON Medicamentos
-FOR EACH ROW 
-BEGIN 
-    IF NEW.precio < 0 THEN 
-        SET NEW.precio = 0; 
-    END IF; 
-END //
-delimiter ;
 
--- 3. Controlar que no se inserte stock negativo inicial
-delimiter //
-CREATE TRIGGER Trg_Med_Stock_Minimo BEFORE INSERT ON Medicamentos
-FOR EACH ROW 
-BEGIN 
-    IF NEW.stock < 0 THEN 
-        SET NEW.stock = 0; 
-    END IF; 
-END //
-delimiter ;
 
--- 4. Registrar auditoría cuando cambia el precio de un remedio
-delimiter //
-CREATE TRIGGER Trg_Med_Log_Precio AFTER UPDATE ON Medicamentos
-FOR EACH ROW 
-BEGIN
-    IF OLD.precio <> NEW.precio THEN
-        INSERT INTO Log_Auditoria (accion) VALUES (CONCAT('Med ', NEW.nombre, ' cambió precio de ', OLD.precio, ' a ', NEW.precio));
-    END IF;
-END //
-delimiter ;
 
--- 5. Registrar cuando un medicamento se queda sin stock (Stock = 0)
-delimiter //
-CREATE TRIGGER Trg_Med_Alerta_ZeroStock AFTER UPDATE ON Medicamentos
-FOR EACH ROW 
-BEGIN
-    IF NEW.stock = 0 AND OLD.stock > 0 THEN
-        INSERT INTO Log_Auditoria (accion) VALUES (CONCAT('URGENTE: ', NEW.nombre, ' se quedó sin unidades.'));
-    END IF;
-END //
-delimiter ;
 
--- 6. Bloquear el borrado de medicamentos caros (Protección de activos)
-delimiter //
-CREATE TRIGGER Trg_Med_Bloquear_Borrado_Caro BEFORE DELETE ON Medicamentos
-FOR EACH ROW 
-BEGIN
-    IF OLD.precio > 50000 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se permite borrar medicamentos de alto costo del sistema.';
-    END IF;
-END //
-delimiter ;
+
 
 -- 7. Guardar un log histórico cuando un medicamento se elimina por completo
 delimiter //
@@ -2778,16 +2578,6 @@ BEGIN
 END //
 delimiter ;
 
--- 9. Prevenir que se reduzca el precio más de un 50% de un solo golpe (Seguridad de negocio)
-delimiter //
-CREATE TRIGGER Trg_Med_Descuento_Maximo BEFORE UPDATE ON Medicamentos
-FOR EACH ROW 
-BEGIN
-    IF NEW.precio < (OLD.precio * 0.5) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error: No se permite una baja de precio mayor al 50%.';
-    END IF;
-END //
-delimiter ;
 
 -- 10. Colocar un tipo por defecto si el campo viene vacío
 delimiter //
@@ -3556,4 +3346,4 @@ BEGIN
         SET MESSAGE_TEXT = 'No se permite modificar el ID del usuario';
     END IF;
 END //
-DELIMITER ;
+DELIMITER ;CREATE VIEW Vista_Med_Por_Tipo AS SELECT tipo, COUNT(*) AS Total_Productos, AVG(precio) AS Precio_Promedio FROM Medicamentos GROUP BY tipo
