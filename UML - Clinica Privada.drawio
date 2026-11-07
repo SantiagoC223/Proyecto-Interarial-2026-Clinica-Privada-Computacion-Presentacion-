@@ -1,0 +1,76 @@
+<mxfile host="Electron">
+  <diagram name="Diagrama de Clases UML" id="0">
+    <mxGraphModel dx="2049" dy="1288" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Persona&lt;/b&gt;&lt;hr/&gt;# Nombre: String&lt;br/&gt;# Apellido: String&lt;br/&gt;# DNI: int&lt;br/&gt;# Email: String&lt;br/&gt;# Fecha_Nacimiento: String&lt;br/&gt;# Direccion: String&lt;br/&gt;# Genero: String&lt;hr/&gt;+ Persona(...)&lt;br/&gt;+ Persona()&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Persona(): void" vertex="1">
+          <mxGeometry height="240" width="260" x="420" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Medico&lt;/b&gt;&lt;hr/&gt;- id_medico: int&lt;br/&gt;- Especialidad: String&lt;br/&gt;- Numero_Matricula: String&lt;br/&gt;- Años_Experiencia: int&lt;hr/&gt;+ Medico(...)&lt;br/&gt;+ Medico()&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Persona(): void" vertex="1">
+          <mxGeometry height="220" width="280" x="200" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Paciente&lt;/b&gt;&lt;hr/&gt;- id_paciente: int&lt;br/&gt;- Seguro_Medico: String&lt;br/&gt;- Numero_Afiliado: String&lt;br/&gt;- Grupo_Sanguineo: String&lt;br/&gt;- Lista_Historial: String&lt;hr/&gt;+ Paciente(...)&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Persona(): void" vertex="1">
+          <mxGeometry height="220" width="280" x="620" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Usuario&lt;/b&gt;&lt;hr/&gt;- id: int&lt;br/&gt;- usuario: String&lt;br/&gt;- password: String&lt;hr/&gt;+ Usuario()&lt;br/&gt;+ Usuario(id, usuario, password)&lt;br/&gt;+ get/set para atributos..." vertex="1">
+          <mxGeometry height="160" width="240" x="80" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Especialidades&lt;/b&gt;&lt;hr/&gt;- id_especialidad: int&lt;br/&gt;- nombre: String&lt;br/&gt;- descripcion: String&lt;hr/&gt;+ Especialidades(...)&lt;br/&gt;+ Especialidades()&lt;br/&gt;+ get/set para atributos..." vertex="1">
+          <mxGeometry height="160" width="260" x="40" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Turno&lt;/b&gt;&lt;hr/&gt;- IdTurno: int&lt;br/&gt;- Codigo_Paciente: String&lt;br/&gt;- nombre_completoMedico: String&lt;br/&gt;- matricula_medico: String&lt;br/&gt;- Fecha_Hora: String&lt;br/&gt;- Especialidad: String&lt;br/&gt;- Sala: int&lt;br/&gt;- estado: String&lt;br/&gt;- motivoConsulta: String&lt;br/&gt;- tipoTurno: String&lt;hr/&gt;+ Turno(...)&lt;br/&gt;+ Turno()&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ mostrarTurno(): void" vertex="1">
+          <mxGeometry height="250" width="280" x="980" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Historial_Medico&lt;/b&gt;&lt;hr/&gt;- id_historial: int&lt;br/&gt;- DNI_Paciente: int&lt;br/&gt;- id_medico: String&lt;br/&gt;- nombreDeLaEnfermedad: String&lt;br/&gt;- nombreMedicamento: String&lt;br/&gt;- Fecha_Cita: String&lt;br/&gt;- Peso: int&lt;br/&gt;- Altura: int&lt;br/&gt;- Razon_Cita: String&lt;br/&gt;- Diagnostico: String&lt;br/&gt;- Lista_Sintomas: String&lt;hr/&gt;+ Historial_Medico()&lt;br/&gt;+ Historial_Medico(...)&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Historial(): void" vertex="1">
+          <mxGeometry height="260" width="280" x="620" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Enfermedad&lt;/b&gt;&lt;hr/&gt;- idEnfermedad: int&lt;br/&gt;- nombre: String&lt;br/&gt;- descripcion: String&lt;br/&gt;- categoria: String&lt;br/&gt;- Lista_Sintomas: String&lt;br/&gt;- Lista_Tratamientos: String&lt;br/&gt;- observaciones: String&lt;hr/&gt;+ Enfermedad(...)&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Enfermedad(): void" vertex="1">
+          <mxGeometry height="210" width="280" x="980" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Sintoma&lt;/b&gt;&lt;hr/&gt;- Id_sintoma: int&lt;br/&gt;- Nombre: String&lt;br/&gt;- Descripcion: String&lt;br/&gt;- Durabilidad: String&lt;br/&gt;- Caracteristicas_Tratamiento: String&lt;br/&gt;- Cirujia: String&lt;br/&gt;- Tratable: String&lt;br/&gt;- Nivel_Severidad: String&lt;br/&gt;- Escala_Dolor: int&lt;br/&gt;- Requiere_Monitoreo: String&lt;br/&gt;- Altera_Consciencia: String&lt;br/&gt;- Riesgo_Secuela: String&lt;br/&gt;- Tipo_Intervencion: String&lt;hr/&gt;+ Sintoma()&lt;br/&gt;+ Sintoma(...)&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Sintoma(): void" vertex="1">
+          <mxGeometry height="320" width="290" x="1340" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Tratamiento&lt;/b&gt;&lt;hr/&gt;- idTratamiento: int&lt;br/&gt;- nombre: String&lt;br/&gt;- tipo: String&lt;br/&gt;- area: String&lt;br/&gt;- detalles: String&lt;br/&gt;- diasDuracion: int&lt;br/&gt;- diasReposo: int&lt;br/&gt;- cantidadSesiones: int&lt;br/&gt;- costo: int&lt;br/&gt;- requiereInternacion: String&lt;br/&gt;- estado: String&lt;br/&gt;- materiales: String&lt;br/&gt;- medicamentos: String&lt;br/&gt;- enfermedades: String&lt;hr/&gt;+ Tratamiento(...)&lt;br/&gt;+ Tratamiento()&lt;br/&gt;+ get/set para atributos..." vertex="1">
+          <mxGeometry height="320" width="280" x="980" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="swipeable=1;html=1;shape=mxgraph.basic.rect;rectRounding=0;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=6;spacingRight=6;fillColor=#ffffff;strokeColor=#000000;fontFamily=Helvetica;fontSize=11;" value="&lt;b&gt;Medicamento&lt;/b&gt;&lt;hr/&gt;- id_medicamento: int&lt;br/&gt;# Nombre: String&lt;br/&gt;# Grupo_Anatomico: String&lt;br/&gt;# Tipo: String&lt;br/&gt;# Condicion_Venta: String&lt;br/&gt;- Forma_Farmaceutica: String&lt;br/&gt;- Categoria_Subtipo: String&lt;br/&gt;- Via_Administracion: String&lt;br/&gt;- Dosis_Unidad: String&lt;br/&gt;- Dosis_Cantidad: int&lt;hr/&gt;+ Medicamento(...)&lt;br/&gt;+ Medicamento()&lt;br/&gt;+ get/set para atributos...&lt;br/&gt;+ Mostrar_Medicamento(): void" vertex="1">
+          <mxGeometry height="270" width="280" x="1340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" source="3" style="endArrow=block;endSize=16;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=1.5;" target="2" value="extends (Herencia)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" edge="1" parent="1" source="4" style="endArrow=block;endSize=16;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=1.5;" target="2" value="extends (Herencia)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" edge="1" parent="1" source="3" style="endArrow=open;endFill=0;dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;" target="6" value="ejerce">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="16" edge="1" parent="1" source="4" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="8" value="1 tiene *">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" edge="1" parent="1" source="8" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="3" value="atendido por">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" edge="1" parent="1" source="7" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="4" value="reservado por">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="7" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="3" value="asignado a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" edge="1" parent="1" source="8" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="9" value="registra">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="9" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="10" value="presenta">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" source="9" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="11" value="requiere">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="11" style="endArrow=open;endFill=0;edgeStyle=orthogonalEdgeStyle;html=1;" target="12" value="prescribe">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
