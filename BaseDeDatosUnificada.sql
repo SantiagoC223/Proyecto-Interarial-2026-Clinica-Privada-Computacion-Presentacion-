@@ -21,7 +21,8 @@ create table pacientes (
     Seguro_Medico varchar(50),    
     Numero_Afiliado varchar(50),
     Grupo_Sanguineo varchar(10),
-    Lista_Historial varchar(500)
+    Lista_Historial varchar(500),
+    Contraseña varchar(50)
 );
 
 create table medicos (
